@@ -2,7 +2,6 @@ package com.skillstorm.project1.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
@@ -10,7 +9,6 @@ import javax.persistence.Table;
 @Table(name = "ITEMS")
 public class Item {
     
-    @Id
     @JoinColumn(name = "product_id")
     private int product_id;
 
