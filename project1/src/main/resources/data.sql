@@ -1,0 +1,30 @@
+insert into PRODUCTS (product_name, color, price) values ('Fender Stratocaster', 'Sunburst', 2000);
+insert into PRODUCTS (product_name, color, price) values ('Fender Telecaster', 'White', 1500);
+insert into PRODUCTS (product_name, color, price) values ('Gibson Les Paul', 'Black', 3000);
+insert into PRODUCTS (product_name, color, price) values ('Gibson SG', 'Red', 2500);
+insert into PRODUCTS (product_name, color, price) values ('Gibson Explorer', 'Natural', 1800);
+insert into PRODUCTS (product_name, color, price) values ('PRS Custom 24', 'Blue', 1000);
+insert into PRODUCTS (product_name, color, price) values ('Martin D-28', 'Rosewood', 3200);
+insert into PRODUCTS (product_name, color, price) values ('Rickenbacker 330', 'Fireglo', 3000);
+insert into PRODUCTS (product_name, color, price) values ('Gretsch G6136T-59GE', 'White', 4000);
+insert into PRODUCTS (product_name, color, price) values ('Esp Eclipse', 'Black', 1200);
+
+insert into WAREHOUSES (warehouse_location, max_capacity) values ('Northeast', 500);
+insert into WAREHOUSES (warehouse_location, max_capacity) values ('South', 500);
+insert into WAREHOUSES (warehouse_location, max_capacity) values ('West', 500);
+
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (1, 1, 100);
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (1, 2, 100);
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (1, 3, 100);
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (2, 1, 100);
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (2, 2, 100);
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (3, 1, 100);
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (3, 2, 50);
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (3, 3, 50);
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (4, 1, 100);
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (5, 2, 100);
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (6, 3, 100);
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (7, 2, 50);
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (8, 3, 50);
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (9, 2, 50);
+insert into ITEMS (product_id, warehouse_id, item_quantity) values (10, 3, 50);
