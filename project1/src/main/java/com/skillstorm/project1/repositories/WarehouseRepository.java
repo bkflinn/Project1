@@ -1,5 +1,9 @@
 package com.skillstorm.project1.repositories;
 
-public interface WarehouseRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.skillstorm.project1.models.Warehouse;
+
+public interface WarehouseRepository extends JpaRepository<Warehouse, Integer>{
     
 }
