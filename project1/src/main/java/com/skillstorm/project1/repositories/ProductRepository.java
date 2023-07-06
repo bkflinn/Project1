@@ -1,5 +1,9 @@
 package com.skillstorm.project1.repositories;
 
-public interface ProductRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.skillstorm.project1.models.Product;
+
+public interface ProductRepository extends JpaRepository<Product, Integer> {
     
 }
