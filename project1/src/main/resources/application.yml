@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    #url: jdbc:h2:mem:moviesdb
+    #username: sa
+    #password:
+    #driverClassName: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/guitars
+    username: postgres
+    password: "@Basketball5"
+  output:
+    ansi:
+      enabled: ALWAYS
+  #jpa:
+  #database-platform: org.hibernate.dialect.H2Dialect
+  #defer-datasource-initialization: true
