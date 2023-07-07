@@ -22,17 +22,13 @@ public class Product {
     @Column(name = "color")
     private String color;
 
-    @Column(name = "price")
-    private int price;
-
     public Product() {
     }
 
-    public Product(int id, String product_name, String color, int price) {
+    public Product(int id, String product_name, String color) {
         this.id = id;
         this.product_name = product_name;
         this.color = color;
-        this.price = price;
     }
 
     public int getId() {
@@ -59,14 +55,6 @@ public class Product {
         this.color = color;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -74,7 +62,6 @@ public class Product {
         result = prime * result + id;
         result = prime * result + ((product_name == null) ? 0 : product_name.hashCode());
         result = prime * result + ((color == null) ? 0 : color.hashCode());
-        result = prime * result + price;
         return result;
     }
 
@@ -99,14 +86,12 @@ public class Product {
                 return false;
         } else if (!color.equals(other.color))
             return false;
-        if (price != other.price)
-            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Product [id=" + id + ", product_name=" + product_name + ", color=" + color + ", price=" + price + "]";
+        return "Product [id=" + id + ", product_name=" + product_name + ", color=" + color + "]";
     }
 
     

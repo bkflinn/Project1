@@ -19,6 +19,9 @@ public class Warehouse {
     @Column(name = "warehouse_location")
     private String warehouse_location;
 
+    @Column(name = "number_of_items")
+    private int number_of_items;
+
     @Column(name = "max_capacity")
     private int max_capacity;
 
@@ -55,12 +58,21 @@ public class Warehouse {
         this.max_capacity = max_capacity;
     }
 
+    public int getNumber_of_items() {
+        return number_of_items;
+    }
+
+    public void setNumber_of_items(int number_of_items) {
+        this.number_of_items = number_of_items;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + id;
         result = prime * result + ((warehouse_location == null) ? 0 : warehouse_location.hashCode());
+        result = prime * result + number_of_items;
         result = prime * result + max_capacity;
         return result;
     }
@@ -81,6 +93,8 @@ public class Warehouse {
                 return false;
         } else if (!warehouse_location.equals(other.warehouse_location))
             return false;
+        if (number_of_items != other.number_of_items)
+            return false;
         if (max_capacity != other.max_capacity)
             return false;
         return true;
@@ -88,10 +102,8 @@ public class Warehouse {
 
     @Override
     public String toString() {
-        return "Warehouse [id=" + id + ", warehouse_location=" + warehouse_location + ", max_capacity=" + max_capacity
-                + "]";
+        return "Warehouse [id=" + id + ", warehouse_location=" + warehouse_location + ", number_of_items="
+                + number_of_items + ", max_capacity=" + max_capacity + "]";
     }
-
-    
     
 }
