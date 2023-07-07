@@ -21,5 +21,9 @@ public class ProductService {
     public Product createProduct(Product product) {
         return productRepository.save(product);
     }
+
+    public int updateProductName(Product product, String newName) {
+        return productRepository.updateProductName(product.getId(), newName);
+    }
     
 }
