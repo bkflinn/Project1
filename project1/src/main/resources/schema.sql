@@ -5,13 +5,13 @@ drop table if exists ITEMS;
 create table PRODUCTS (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	product_name VARCHAR(50),
-	color VARCHAR(50),
-	price INT
+	color VARCHAR(50)
 );
 
 create table WAREHOUSES (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	warehouse_location VARCHAR(50),
+	number_of_items INT,
 	max_capacity INT
 );
 

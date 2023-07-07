@@ -1,17 +1,17 @@
-insert into PRODUCTS (product_name, color, price) values ('Fender Stratocaster', 'Sunburst', 2000);
-insert into PRODUCTS (product_name, color, price) values ('Fender Telecaster', 'White', 1500);
-insert into PRODUCTS (product_name, color, price) values ('Gibson Les Paul', 'Black', 3000);
-insert into PRODUCTS (product_name, color, price) values ('Gibson SG', 'Red', 2500);
-insert into PRODUCTS (product_name, color, price) values ('Gibson Explorer', 'Natural', 1800);
-insert into PRODUCTS (product_name, color, price) values ('PRS Custom 24', 'Blue', 1000);
-insert into PRODUCTS (product_name, color, price) values ('Martin D-28', 'Rosewood', 3200);
-insert into PRODUCTS (product_name, color, price) values ('Rickenbacker 330', 'Fireglo', 3000);
-insert into PRODUCTS (product_name, color, price) values ('Gretsch G6136T-59GE', 'White', 4000);
-insert into PRODUCTS (product_name, color, price) values ('Esp Eclipse', 'Black', 1200);
+insert into PRODUCTS (product_name, color) values ('Fender Stratocaster', 'Sunburst');
+insert into PRODUCTS (product_name, color) values ('Fender Telecaster', 'White');
+insert into PRODUCTS (product_name, color) values ('Gibson Les Paul', 'Black');
+insert into PRODUCTS (product_name, color) values ('Gibson SG', 'Red');
+insert into PRODUCTS (product_name, color) values ('Gibson Explorer', 'Natural');
+insert into PRODUCTS (product_name, color) values ('PRS Custom 24', 'Blue');
+insert into PRODUCTS (product_name, color) values ('Martin D-28', 'Rosewood');
+insert into PRODUCTS (product_name, color) values ('Rickenbacker 330', 'Fireglo');
+insert into PRODUCTS (product_name, color) values ('Gretsch G6136T-59GE', 'White');
+insert into PRODUCTS (product_name, color) values ('Esp Eclipse', 'Black');
 
-insert into WAREHOUSES (warehouse_location, max_capacity) values ('Northeast', 500);
-insert into WAREHOUSES (warehouse_location, max_capacity) values ('South', 500);
-insert into WAREHOUSES (warehouse_location, max_capacity) values ('West', 500);
+insert into WAREHOUSES (warehouse_location, number_of_items, max_capacity) values ('Northeast', 400, 500);
+insert into WAREHOUSES (warehouse_location, number_of_items, max_capacity) values ('South', 450, 500);
+insert into WAREHOUSES (warehouse_location, number_of_items, max_capacity) values ('West', 350, 500);
 
 insert into ITEMS (product_id, warehouse_id, item_quantity) values (1, 1, 100);
 insert into ITEMS (product_id, warehouse_id, item_quantity) values (1, 2, 100);
