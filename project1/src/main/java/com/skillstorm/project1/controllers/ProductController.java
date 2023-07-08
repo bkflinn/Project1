@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,18 +40,24 @@ public class ProductController {
         return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
     }
 
-    @PutMapping("product/updateName")
+    @PutMapping("/product/updateName")
     public ResponseEntity<Integer> updateProductName(@Valid @RequestBody Product product, @RequestParam String newName) {
         int updatedProduct = productService.updateProductName(product, newName);
 
         return new ResponseEntity<Integer>(updatedProduct, HttpStatus.OK);
     }
 
-    @PutMapping("product/updateColor")
+    @PutMapping("/product/updateColor")
     public ResponseEntity<Integer> updateProductColor(@Valid @RequestBody Product product, @RequestParam String newColor) {
         int updatedProduct = productService.updateProductColor(product, newColor);
 
         return new ResponseEntity<Integer>(updatedProduct, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/product")
+    public ResponseEntity<Product> deleteProduct(@RequestBody Product product) {
+        productService.deleteProduct(product);
+        return ResponseEntity.noContent().build();
     }
     
 }

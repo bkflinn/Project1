@@ -2,6 +2,8 @@ package com.skillstorm.project1.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
@@ -9,10 +11,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ITEMS")
 public class Item {
-    
+
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    
     @JoinColumn(name = "product_id")
-    private int product_id;
+    private int productId;
 
     @JoinColumn(name = "warehouse_id")
     private int warehouse_id;
@@ -23,18 +29,26 @@ public class Item {
     public Item() {
     }
 
-    public Item(int product_id, int warehouse_id, int item_quantity) {
-        this.product_id = product_id;
+    public Item(int productId, int warehouse_id, int item_quantity) {
+        this.productId = productId;
         this.warehouse_id = warehouse_id;
         this.item_quantity = item_quantity;
     }
 
-    public int getProduct_id() {
-        return product_id;
+    public int getId() {
+        return id;
     }
 
-    public void setProduct_id(int product_id) {
-        this.product_id = product_id;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public int getWarehouse_id() {
@@ -57,7 +71,8 @@ public class Item {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + product_id;
+        result = prime * result + id;
+        result = prime * result + productId;
         result = prime * result + warehouse_id;
         result = prime * result + item_quantity;
         return result;
@@ -72,7 +87,9 @@ public class Item {
         if (getClass() != obj.getClass())
             return false;
         Item other = (Item) obj;
-        if (product_id != other.product_id)
+        if (id != other.id)
+            return false;
+        if (productId != other.productId)
             return false;
         if (warehouse_id != other.warehouse_id)
             return false;
@@ -83,8 +100,10 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item [product_id=" + product_id + ", warehouse_id=" + warehouse_id + ", item_quantity=" + item_quantity
-                + "]";
+        return "Item [id=" + id + ", productId=" + productId + ", warehouse_id=" + warehouse_id + ", item_quantity="
+                + item_quantity + "]";
     }
+
+    
 
 }

@@ -16,6 +16,7 @@ create table WAREHOUSES (
 );
 
 create table ITEMS (
+	id INT AUTO_INCREMENT PRIMARY KEY,
 	product_id INT,
 	warehouse_id INT,
 	item_quantity INT,
