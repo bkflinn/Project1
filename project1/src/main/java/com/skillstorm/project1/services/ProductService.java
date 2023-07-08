@@ -25,5 +25,9 @@ public class ProductService {
     public int updateProductName(Product product, String newName) {
         return productRepository.updateProductName(product.getId(), newName);
     }
+
+    public int updateProductColor(Product product, String newColor) {
+        return productRepository.updateProductColor(product.getId(), newColor);
+    }
     
 }

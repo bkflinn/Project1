@@ -45,5 +45,12 @@ public class ProductController {
 
         return new ResponseEntity<Integer>(updatedProduct, HttpStatus.OK);
     }
+
+    @PutMapping("product/updateColor")
+    public ResponseEntity<Integer> updateProductColor(@Valid @RequestBody Product product, @RequestParam String newColor) {
+        int updatedProduct = productService.updateProductColor(product, newColor);
+
+        return new ResponseEntity<Integer>(updatedProduct, HttpStatus.OK);
+    }
     
 }
