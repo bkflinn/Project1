@@ -37,7 +37,7 @@ public class ItemService {
 
             // if the given quantity does not exceed the warehouse's limit
             if(warehouse.getNumber_of_items() + item.getItem_quantity() <= warehouse.getMax_capacity()) {
-                
+
                 // update warhouse number of items here when time to work on warehouse CRUD
 
                 return itemRepository.save(item);
@@ -45,6 +45,16 @@ public class ItemService {
         }
 
         return null;
+    }
+
+    public int updateProductId(Item item, int newProductId) {
+
+        // if the updated product exists
+        if(productRepository.existsById(item.getProductId())) {
+            return itemRepository.updateProductId(item.getId(), newProductId);
+        }
+
+        return 0;
     }
     
 }
