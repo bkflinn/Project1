@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +36,16 @@ public class ProductController {
 
     @PostMapping("/product")
     public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
-        Product newProduct = productService.createProduct(product);
+        Product newProduct = productService.saveProduct(product);
 
         return new ResponseEntity<Product>(newProduct, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/product")
+    public ResponseEntity<Product> updateProduct(@Valid @RequestBody Product product) {
+        Product updatedProduct = productService.saveProduct(product);
+
+        return new ResponseEntity<Product>(updatedProduct, HttpStatus.OK);
     }
 
     @PutMapping("/product/updateName")
