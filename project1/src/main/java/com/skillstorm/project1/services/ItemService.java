@@ -27,7 +27,7 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
-    public Item createItem(Item item) {
+    public Item saveItem(Item item) {
 
         // if the given product and warehouse exist
         if(productRepository.existsById(item.getProductId()) && warehouseRepository.existsById(item.getWarehouse_id())) {
@@ -55,6 +55,10 @@ public class ItemService {
         }
 
         return 0;
+    }
+
+    public void deleteItem(Item item) {
+        itemRepository.delete(item);
     }
     
 }

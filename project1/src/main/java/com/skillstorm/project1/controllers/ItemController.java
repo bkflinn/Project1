@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,14 +36,14 @@ public class ItemController {
 
     @PostMapping("/item")
     public ResponseEntity<Item> createItem(@Valid @RequestBody Item item) {
-        Item newItem = itemService.createItem(item);
+        Item newItem = itemService.saveItem(item);
         
         return new ResponseEntity<Item>(newItem, HttpStatus.CREATED);
     }
 
     @PutMapping("/item")
     public ResponseEntity<Item> updateItem(@Valid @RequestBody Item item) {
-        Item updatedItem = itemService.createItem(item);
+        Item updatedItem = itemService.saveItem(item);
         
         return new ResponseEntity<Item>(updatedItem, HttpStatus.OK);
     }
@@ -51,6 +53,12 @@ public class ItemController {
         int updatedItem = itemService.updateProductId(item, newProductId);
 
         return new ResponseEntity<Integer>(updatedItem, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/item")
+    public ResponseEntity<Item> deleteItem(@RequestBody Item item) {
+        itemService.deleteItem(item);
+        return ResponseEntity.noContent().build();
     }
     
 }
