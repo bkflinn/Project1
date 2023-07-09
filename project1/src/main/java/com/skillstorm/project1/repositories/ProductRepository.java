@@ -19,5 +19,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Modifying
     @Transactional
     public int updateProductColor(@Param("product_id") int id, @Param("new_color") String newColor);
-    
+        
 }
