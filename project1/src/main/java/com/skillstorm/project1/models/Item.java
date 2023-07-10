@@ -21,7 +21,7 @@ public class Item {
     private int productId;
 
     @JoinColumn(name = "warehouse_id")
-    private int warehouse_id;
+    private int warehouseId;
 
     @Column(name = "item_quantity")
     private int item_quantity;
@@ -29,9 +29,9 @@ public class Item {
     public Item() {
     }
 
-    public Item(int productId, int warehouse_id, int item_quantity) {
+    public Item(int productId, int warehouseId, int item_quantity) {
         this.productId = productId;
-        this.warehouse_id = warehouse_id;
+        this.warehouseId = warehouseId;
         this.item_quantity = item_quantity;
     }
 
@@ -51,12 +51,12 @@ public class Item {
         this.productId = productId;
     }
 
-    public int getWarehouse_id() {
-        return warehouse_id;
+    public int getWarehouseId() {
+        return warehouseId;
     }
 
-    public void setWarehouse_id(int warehouse_id) {
-        this.warehouse_id = warehouse_id;
+    public void setWarehouseId(int warehouseId) {
+        this.warehouseId = warehouseId;
     }
 
     public int getItem_quantity() {
@@ -73,7 +73,7 @@ public class Item {
         int result = 1;
         result = prime * result + id;
         result = prime * result + productId;
-        result = prime * result + warehouse_id;
+        result = prime * result + warehouseId;
         result = prime * result + item_quantity;
         return result;
     }
@@ -91,7 +91,7 @@ public class Item {
             return false;
         if (productId != other.productId)
             return false;
-        if (warehouse_id != other.warehouse_id)
+        if (warehouseId != other.warehouseId)
             return false;
         if (item_quantity != other.item_quantity)
             return false;
@@ -100,7 +100,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item [id=" + id + ", productId=" + productId + ", warehouse_id=" + warehouse_id + ", item_quantity="
+        return "Item [id=" + id + ", productId=" + productId + ", warehouseId=" + warehouseId + ", item_quantity="
                 + item_quantity + "]";
     }
 

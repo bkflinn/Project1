@@ -30,10 +30,10 @@ public class ItemService {
     public Item saveItem(Item item) {
 
         // if the given product and warehouse exist
-        if(productRepository.existsById(item.getProductId()) && warehouseRepository.existsById(item.getWarehouse_id())) {
+        if(productRepository.existsById(item.getProductId()) && warehouseRepository.existsById(item.getWarehouseId())) {
 
             // get the requested warehouse
-            Warehouse warehouse = warehouseRepository.getReferenceById(item.getWarehouse_id());
+            Warehouse warehouse = warehouseRepository.getReferenceById(item.getWarehouseId());
 
             // if the given quantity does not exceed the warehouse's limit
             if(warehouse.getNumber_of_items() + item.getItem_quantity() <= warehouse.getMax_capacity()) {
