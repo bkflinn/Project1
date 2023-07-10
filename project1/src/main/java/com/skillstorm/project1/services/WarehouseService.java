@@ -38,6 +38,11 @@ public class WarehouseService {
         return newWarehouse;
     }
 
+    public void deleteWarehouse(Warehouse warehouse) {
+        itemRepository.deleteAllByWarehouseId(warehouse.getId());
+        warehouseRepository.delete(warehouse);
+    }
+
     // updates the number of items in a warehouse
     public int updateNumberOfItems(Warehouse warehouse) {
         List<Item> relevantItems = itemRepository.findAllByWarehouseId(warehouse.getId());

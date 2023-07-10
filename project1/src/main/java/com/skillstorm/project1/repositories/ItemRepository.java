@@ -18,6 +18,10 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
     @Modifying
     @Transactional
+    public void deleteAllByWarehouseId(int productId);
+
+    @Modifying
+    @Transactional
     public List<Item> findAllByWarehouseId(int warehouseId);
 
     @Query("update Item i set i.productId = :new_ProductId where id = :item_id")
