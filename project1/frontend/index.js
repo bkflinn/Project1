@@ -32,7 +32,8 @@ function addProductToTable(newProduct) {
   name.innerText = newProduct.product_name;
   color.innerText = newProduct.color;
 
-  editBtn.innerHTML = `<button class="btn btn-primary" id="edit-button" onclick="activateEditForm(${newProduct.id})">Edit</button>`;
+  //editBtn.innerHTML = `<button class="btn btn-primary" id="edit-button" onclick="activateEditForm(${newProduct.id})">Edit</button>`;
+  editBtn.innerHTML = `<button class="btn btn-primary" id="edit-button" onclick="showProducts()">Edit</button>`;
 
   deleteBtn.innerHTML = `<button class="btn btn-primary" id="delete-button" onclick="activateDeleteForm(${newProduct.id})">Delete</button>`;
 
@@ -47,4 +48,22 @@ function addProductToTable(newProduct) {
   document.getElementById("product-table-body").appendChild(tr);
 
   allProducts.push(newProduct);
+}
+
+// Tab Functionality
+
+function showProducts() {
+  document.getElementById("products").style.display = "block";
+  document.getElementById("warehouses").style.display = "none";
+
+  document.getElementById("products-tab").className = "nav-link active";
+  document.getElementById("warehouses-tab").className = "nav-link";
+}
+
+function showWarehouses() {
+  document.getElementById("products").style.display = "none";
+  document.getElementById("warehouses").style.display = "block";
+
+  document.getElementById("products-tab").className = "nav-link";
+  document.getElementById("warehouses-tab").className = "nav-link active";
 }

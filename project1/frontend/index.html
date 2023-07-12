@@ -18,6 +18,85 @@
     <div class="container-fluid">
       <h1>Inventory Management</h1>
 
+      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="products-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-home"
+            type="button"
+            role="tab"
+            aria-controls="pills-home"
+            aria-selected="true"
+            onclick="showProducts()"
+          >
+            Products
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="warehouses-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-profile"
+            type="button"
+            role="tab"
+            aria-controls="pills-profile"
+            aria-selected="false"
+            onclick="showWarehouses()"
+          >
+            Warehouses
+          </button>
+        </li>
+      </ul>
+      <div class="tab-content" id="pills-tabContent">
+        <div
+          class="tab-pane fade show active"
+          id="products"
+          role="tabpanel"
+          aria-labelledby="pills-home-tab"
+        >
+          <div class="col-lg-12">
+            <table class="table table-primary table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Product Name</th>
+                  <th>Color</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody id="product-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade show active"
+          id="warehouses"
+          role="tabpanel"
+          aria-labelledby="pills-profile-tab"
+          style="display: none"
+        >
+          <div class="col-lg-12">
+            <table class="table table-primary table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Location</th>
+                  <th>Number of Items</th>
+                  <th>Max Capacity</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody id="warehouse-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-lg-4">
           <!-- New Product Form -->
@@ -55,21 +134,6 @@
               />
             </div>
           </form>
-        </div>
-
-        <div class="col-lg-8">
-          <table class="table table-primary table-hover">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Product Name</th>
-                <th>Product Color</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody id="product-table-body"></tbody>
-          </table>
         </div>
       </div>
     </div>
