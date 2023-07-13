@@ -1,7 +1,7 @@
 let allProducts = [];
 let allWarehouses = [];
 
-let productIdToBeDeleted = 0;
+let productIdToBeUsed = 0;
 
 let requests = ["products", "warehouses"];
 
@@ -54,9 +54,9 @@ function addProductToTable(newProduct) {
   name.innerText = newProduct.product_name;
   color.innerText = newProduct.color;
 
-  editBtn.innerHTML = `<button class="btn btn-primary" id="edit-button" onclick="activateEditForm(${newProduct.id})">Edit</button>`;
+  editBtn.innerHTML = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productUpdateModal" onclick="setProductIdToBeUsed(${newProduct.id})">Edit</button>`;
 
-  deleteBtn.innerHTML = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="setProductIdToBeDeleted(${newProduct.id})">Delete</button>`;
+  deleteBtn.innerHTML = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productDeleteModal" onclick="setProductIdToBeUsed(${newProduct.id})">Delete</button>`;
 
   tr.appendChild(id);
   tr.appendChild(name);
@@ -105,9 +105,69 @@ function addWarehouseToTable(newWarehouse) {
 }
 
 // set the id of the product that is to be deleted
-function setProductIdToBeDeleted(productId) {
-  productIdToBeDeleted = productId;
+function setProductIdToBeUsed(productId) {
+  productIdToBeUsed = productId;
+
+  for (let p of allProducts) {
+    if (p.id == productIdToBeUsed) {
+      document.getElementById("update-product-id").value = p.id;
+      document.getElementById("update-product-name").value = p.product_name;
+      document.getElementById("update-product-color").value = p.color;
+    }
+  }
 }
+
+// update product
+document.getElementById("update-product").addEventListener("click", (event) => {
+  event.preventDefault();
+
+  let inputData = new FormData(document.getElementById("update-product-form"));
+
+  let product = {
+    id: document.getElementById("update-product-id").value,
+    product_name: inputData.get("update-product-name"),
+    color: inputData.get("update-product-color"),
+  };
+
+  // for (let p of allProducts) {
+  //   if (p.id == productIdToBeUsed) {
+  //     product = p;
+  //   }
+  // }
+
+  let URL = "http://localhost:8080/products";
+
+  fetch(URL + "/product", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(product),
+  })
+    .then((data) => {
+      // this will handle all 100, 200, and 300 status code responses
+
+      // we still need to serialize the response into JSON
+      console.log(data);
+      return data.json();
+    })
+    .then((productJson) => {
+      // handling the promise returned by data.json (*** this is where we update the table ***)
+
+      // adding the updated movie to our table
+      updateProductInTable(productJson);
+
+      // reset the forms
+      //document.getElementById("update-movie-form").reset();
+      //document.getElementById("new-movie-form").style.display = "block";
+      //document.getElementById("update-movie-form").style.display = "none";
+    })
+    .catch((error) => {
+      // this will handle all 400 and 500 status code responses
+
+      console.error(error); // generally, you never want to use console.log() - especially in a production environment
+    });
+});
 
 // delete product
 document.getElementById("delete-product").addEventListener("click", (event) => {
@@ -116,7 +176,7 @@ document.getElementById("delete-product").addEventListener("click", (event) => {
   let product = 0;
 
   for (let p of allProducts) {
-    if (p.id == productIdToBeDeleted) {
+    if (p.id == productIdToBeUsed) {
       product = p;
     }
   }
@@ -146,6 +206,16 @@ document.getElementById("delete-product").addEventListener("click", (event) => {
       console.error(error);
     });
 });
+
+function updateProductInTable(product) {
+  document.getElementById("TR" + product.id).innerHTML = `
+    <td>${product.id}</td>
+    <td>${product.product_name}</td>
+    <td>${product.color}</td>
+    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productUpdateModal" onclick="setProductIdToBeUsed(${product.id})">Edit</button></td>
+    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productDeleteModal" onclick="setProductIdToBeUsed(${product.id})">Delete</button></td>
+    `;
+}
 
 function removeProductFromTable(product) {
   // removing the <tr> from the table when a movie gets deleted
