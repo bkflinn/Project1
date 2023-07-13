@@ -2,6 +2,7 @@ let allProducts = [];
 let allWarehouses = [];
 
 let productIdToBeUsed = 0;
+let warehouseIdToBeUsed = 0;
 
 let requests = ["products", "warehouses"];
 
@@ -64,7 +65,7 @@ function addProductToTable(newProduct) {
   tr.appendChild(editBtn);
   tr.appendChild(deleteBtn);
 
-  tr.setAttribute("id", "TR" + newProduct.id);
+  tr.setAttribute("id", "TR" + "product" + newProduct.id);
 
   document.getElementById("product-table-body").appendChild(tr);
 
@@ -86,9 +87,9 @@ function addWarehouseToTable(newWarehouse) {
   numberOfItems.innerText = newWarehouse.number_of_items;
   maxCapacity.innerText = newWarehouse.max_capacity;
 
-  editBtn.innerHTML = `<button class="btn btn-primary" id="edit-button" onclick="activateEditForm(${newWarehouse.id})">Edit</button>`;
+  editBtn.innerHTML = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#warehouseUpdateModal" onclick="setWarehouseIdToBeUsed(${newWarehouse.id})">Edit</button>`;
 
-  deleteBtn.innerHTML = `<button class="btn btn-primary" id="delete-button" onclick="activateDeleteForm(${newWarehouse.id})">Delete</button>`;
+  deleteBtn.innerHTML = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#warehouseDeleteModal" onclick="setWarehouseIdToBeUsed(${newWarehouse.id})">Delete</button>`;
 
   tr.appendChild(id);
   tr.appendChild(location);
@@ -97,14 +98,14 @@ function addWarehouseToTable(newWarehouse) {
   tr.appendChild(editBtn);
   tr.appendChild(deleteBtn);
 
-  tr.setAttribute("id", "TR" + newWarehouse.id);
+  tr.setAttribute("id", "TR" + "warehouse" + newWarehouse.id);
 
   document.getElementById("warehouse-table-body").appendChild(tr);
 
   allWarehouses.push(newWarehouse);
 }
 
-// set the id of the product that is to be deleted
+// set the id of the product that is to be used
 function setProductIdToBeUsed(productId) {
   productIdToBeUsed = productId;
 
@@ -113,6 +114,23 @@ function setProductIdToBeUsed(productId) {
       document.getElementById("update-product-id").value = p.id;
       document.getElementById("update-product-name").value = p.product_name;
       document.getElementById("update-product-color").value = p.color;
+    }
+  }
+}
+
+// set the id of the warehouse that is to be used
+function setWarehouseIdToBeUsed(warehouseId) {
+  warehouseIdToBeUsed = warehouseId;
+
+  for (let w of allWarehouses) {
+    if (w.id == warehouseIdToBeUsed) {
+      document.getElementById("update-warehouse-id").value = w.id;
+      document.getElementById("update-warehouse-location").value =
+        w.warehouse_location;
+      document.getElementById("update-warehouse-number-of-items").value =
+        w.number_of_items;
+      document.getElementById("update-warehouse-max-capacity").value =
+        w.max_capacity;
     }
   }
 }
@@ -212,7 +230,7 @@ document.getElementById("delete-product").addEventListener("click", (event) => {
     });
 });
 
-// add product
+// add warehouse
 document.getElementById("add-warehouse").addEventListener("click", (event) => {
   event.preventDefault();
 
@@ -236,16 +254,87 @@ document.getElementById("add-warehouse").addEventListener("click", (event) => {
     .then((data) => {
       return data.json();
     })
-    .then((productJson) => {
-      addWarehouseToTable(productJson);
+    .then((warehouseJson) => {
+      addWarehouseToTable(warehouseJson);
     })
     .catch((error) => {
       console.error(error);
     });
 });
 
+// update warehouse
+document
+  .getElementById("update-warehouse")
+  .addEventListener("click", (event) => {
+    event.preventDefault();
+
+    let inputData = new FormData(
+      document.getElementById("update-warehouse-form")
+    );
+
+    let warehouse = {
+      id: document.getElementById("update-warehouse-id").value,
+      warehouse_location: inputData.get("update-warehouse-location"),
+      number_of_items: inputData.get("update-warehouse-number-of-items"),
+      max_capacity: inputData.get("update-warehouse-max-capacity"),
+    };
+
+    let URL = "http://localhost:8080/warehouses";
+
+    fetch(URL + "/warehouse", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(warehouse),
+    })
+      .then((data) => {
+        return data.json();
+      })
+      .then((warehouseJson) => {
+        updateWarehouseInTable(warehouseJson);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+
+// delete warehouse
+document
+  .getElementById("delete-warehouse")
+  .addEventListener("click", (event) => {
+    event.preventDefault();
+
+    let warehouse = 0;
+
+    for (let w of allWarehouses) {
+      if (w.id == warehouseIdToBeUsed) {
+        warehouse = w;
+      }
+    }
+
+    let URL = "http://localhost:8080/warehouses";
+
+    // sending delete request
+    fetch(URL + "/warehouse", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(warehouse),
+    })
+      .then((data) => {
+        if (data.status === 204) {
+          removeWarehouseFromTable(warehouse);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+
 function updateProductInTable(product) {
-  document.getElementById("TR" + product.id).innerHTML = `
+  document.getElementById("TR" + "product" + product.id).innerHTML = `
     <td>${product.id}</td>
     <td>${product.product_name}</td>
     <td>${product.color}</td>
@@ -254,8 +343,26 @@ function updateProductInTable(product) {
     `;
 }
 
+function updateWarehouseInTable(warehouse) {
+  document.getElementById("TR" + "warehouse" + warehouse.id).innerHTML = `
+    <td>${warehouse.id}</td>
+    <td>${warehouse.warehouse_location}</td>
+    <td>${warehouse.number_of_items}</td>
+    <td>${warehouse.max_capacity}</td>
+    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#warehouseUpdateModal" onclick="setWarehouseIdToBeUsed(${warehouse.id})">Edit</button></td>
+    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#warehouseDeleteModal" onclick="setWarehouseIdToBeUsed(${warehouse.id})">Delete</button></td>
+    `;
+}
+
 function removeProductFromTable(product) {
-  const element = document.getElementById("TR" + product.id);
+  const element = document.getElementById("TR" + "product" + product.id);
+  console.log(element);
+  element.remove();
+}
+
+function removeWarehouseFromTable(warehouse) {
+  const element = document.getElementById("TR" + "warehouse" + warehouse.id);
+  console.log(element);
   element.remove();
 }
 
