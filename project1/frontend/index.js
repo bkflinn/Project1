@@ -4,6 +4,7 @@ let allItems = [];
 
 let productIdToBeUsed = 0;
 let warehouseIdToBeUsed = 0;
+let itemIdToBeUsed = 0;
 
 let requests = ["products", "warehouses"];
 
@@ -138,14 +139,20 @@ function addItemToTable(newItem) {
   let tr = document.createElement("tr");
   let id = document.createElement("td");
   let productId = document.createElement("td");
-  let warehouseId = document.createElement("td");
+  //let warehouseId = document.createElement("td");
   let quantity = document.createElement("td");
   let editBtn = document.createElement("td");
   let deleteBtn = document.createElement("td");
 
+  for (let p of allProducts) {
+    if (p.id == newItem.productId) {
+      productId.innerText = p.product_name;
+    }
+  }
+
   id.innerText = newItem.id;
-  productId.innerText = newItem.productId;
-  warehouseId.innerText = newItem.warehouseId;
+  //productId.innerText = newItem.productId;
+  //warehouseId.innerText = newItem.warehouseId;
   quantity.innerText = newItem.item_quantity;
 
   editBtn.innerHTML = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#itemUpdateModal" onclick="setItemIdToBeUsed(${newItem.id})">Edit</button>`;
@@ -154,7 +161,7 @@ function addItemToTable(newItem) {
 
   tr.appendChild(id);
   tr.appendChild(productId);
-  tr.appendChild(warehouseId);
+  //tr.appendChild(warehouseId);
   tr.appendChild(quantity);
   tr.appendChild(editBtn);
   tr.appendChild(deleteBtn);
@@ -194,6 +201,23 @@ function setWarehouseIdToBeUsed(warehouseId) {
         w.max_capacity;
     }
   }
+}
+
+// set the id of the item that is to be used
+function setItemIdToBeUsed(itemId) {
+  itemIdToBeUsed = itemId;
+
+  // for (let i of allItems) {
+  //   if (w.id == warehouseIdToBeUsed) {
+  //     document.getElementById("update-item-id").value = w.id;
+  //     document.getElementById("update-item-location").value =
+  //       w.warehouse_location;
+  //     document.getElementById("update-warehouse-number-of-items").value =
+  //       w.number_of_items;
+  //     document.getElementById("update-warehouse-max-capacity").value =
+  //       w.max_capacity;
+  //   }
+  // }
 }
 
 // add product
@@ -394,6 +418,38 @@ document
       });
   });
 
+// delete item
+document.getElementById("delete-item").addEventListener("click", (event) => {
+  event.preventDefault();
+
+  let item = 0;
+
+  for (let i of allItems) {
+    if (i.id == itemIdToBeUsed) {
+      item = i;
+    }
+  }
+
+  let URL = "http://localhost:8080/items";
+
+  // sending delete request
+  fetch(URL + "/item", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(item),
+  })
+    .then((data) => {
+      if (data.status === 204) {
+        removeItemFromTable(item);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
 function updateProductInTable(product) {
   document.getElementById("TR" + "product" + product.id).innerHTML = `
     <td>${product.id}</td>
@@ -417,13 +473,16 @@ function updateWarehouseInTable(warehouse) {
 
 function removeProductFromTable(product) {
   const element = document.getElementById("TR" + "product" + product.id);
-  console.log(element);
   element.remove();
 }
 
 function removeWarehouseFromTable(warehouse) {
   const element = document.getElementById("TR" + "warehouse" + warehouse.id);
-  console.log(element);
+  element.remove();
+}
+
+function removeItemFromTable(item) {
+  const element = document.getElementById("TR" + "item" + item.id);
   element.remove();
 }
 
