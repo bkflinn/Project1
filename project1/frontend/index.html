@@ -34,6 +34,71 @@
     <div class="container-fluid">
       <h1>Inventory Management</h1>
 
+      <!-- Add Product Modal -->
+      <div
+        class="modal fade"
+        id="addProductModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="add-product-form" action="#">
+                <div>
+                  <label>Product Name</label>
+                  <input
+                    id="add-product-name"
+                    name="add-product-name"
+                    type="text"
+                    class="form-control"
+                  />
+                </div>
+                <div>
+                  <label>Color</label>
+                  <input
+                    id="add-product-color"
+                    name="add-product-color"
+                    type="text"
+                    class="form-control"
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                id="add-product"
+                type="button"
+                class="btn btn-primary"
+                data-dismiss="modal"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Product Update Modal -->
       <div
         class="modal fade"
@@ -188,6 +253,7 @@
           </button>
         </li>
       </ul>
+
       <div class="tab-content" id="pills-tabContent">
         <div
           class="tab-pane fade show active"
@@ -195,6 +261,19 @@
           role="tabpanel"
           aria-labelledby="pills-home-tab"
         >
+          <!-- add product button -->
+          <div>
+            <button
+              id="add-product-button"
+              name="add-product-button"
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#addProductModal"
+            >
+              Add Product
+            </button>
+          </div>
+
           <!-- Product Table -->
           <div class="col-lg-12">
             <table class="table table-primary table-hover">
@@ -234,46 +313,6 @@
               <tbody id="warehouse-table-body"></tbody>
             </table>
           </div>
-        </div>
-      </div>
-
-      <!-- New Product Form -->
-      <div class="row">
-        <div class="col-lg-4">
-          <form id="new-product-form" action="#">
-            <!-- Product Name -->
-            <div>
-              <label>Product Name</label>
-              <input
-                id="new-product-name"
-                name="new-product-name"
-                type="text"
-                class="form-control"
-              />
-            </div>
-
-            <!-- Product Color -->
-            <div>
-              <label>Product Color</label>
-              <input
-                id="new-product-color"
-                name="new-product-color"
-                type="text"
-                class="form-control"
-              />
-            </div>
-
-            <!-- Save Button-->
-            <div>
-              <input
-                id="save-button"
-                name="save-button"
-                type="submit"
-                value="Save"
-                class="btn btn-primary"
-              />
-            </div>
-          </form>
         </div>
       </div>
     </div>

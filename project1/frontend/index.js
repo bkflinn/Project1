@@ -117,6 +117,36 @@ function setProductIdToBeUsed(productId) {
   }
 }
 
+document.getElementById("add-product").addEventListener("click", (event) => {
+  event.preventDefault();
+
+  let inputData = new FormData(document.getElementById("add-product-form"));
+
+  let newProduct = {
+    product_name: inputData.get("add-product-name"),
+    color: inputData.get("add-product-color"),
+  };
+
+  let URL = "http://localhost:8080/products";
+
+  fetch(URL + "/product", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newProduct),
+  })
+    .then((data) => {
+      return data.json();
+    })
+    .then((productJson) => {
+      addProductToTable(productJson);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
 // update product
 document.getElementById("update-product").addEventListener("click", (event) => {
   event.preventDefault();
@@ -129,12 +159,6 @@ document.getElementById("update-product").addEventListener("click", (event) => {
     color: inputData.get("update-product-color"),
   };
 
-  // for (let p of allProducts) {
-  //   if (p.id == productIdToBeUsed) {
-  //     product = p;
-  //   }
-  // }
-
   let URL = "http://localhost:8080/products";
 
   fetch(URL + "/product", {
@@ -145,27 +169,13 @@ document.getElementById("update-product").addEventListener("click", (event) => {
     body: JSON.stringify(product),
   })
     .then((data) => {
-      // this will handle all 100, 200, and 300 status code responses
-
-      // we still need to serialize the response into JSON
-      console.log(data);
       return data.json();
     })
     .then((productJson) => {
-      // handling the promise returned by data.json (*** this is where we update the table ***)
-
-      // adding the updated movie to our table
       updateProductInTable(productJson);
-
-      // reset the forms
-      //document.getElementById("update-movie-form").reset();
-      //document.getElementById("new-movie-form").style.display = "block";
-      //document.getElementById("update-movie-form").style.display = "none";
     })
     .catch((error) => {
-      // this will handle all 400 and 500 status code responses
-
-      console.error(error); // generally, you never want to use console.log() - especially in a production environment
+      console.error(error);
     });
 });
 
@@ -192,14 +202,8 @@ document.getElementById("delete-product").addEventListener("click", (event) => {
     body: JSON.stringify(product),
   })
     .then((data) => {
-      // delete request returns no-content so there's no need to deserialize the response and wait for that promie
-      // just need to check that the response we got back is 204 - No Content and we can delete it on the front end
       if (data.status === 204) {
-        // remove movie from table
         removeProductFromTable(product);
-
-        // resetting all forms
-        //resetAllForms();
       }
     })
     .catch((error) => {
@@ -218,13 +222,11 @@ function updateProductInTable(product) {
 }
 
 function removeProductFromTable(product) {
-  // removing the <tr> from the table when a movie gets deleted
   const element = document.getElementById("TR" + product.id);
   element.remove();
 }
 
 // Tab Functionality
-
 function showProducts() {
   document.getElementById("products").style.display = "block";
   document.getElementById("warehouses").style.display = "none";
