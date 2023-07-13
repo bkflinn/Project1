@@ -27,6 +27,10 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
+    public List<Item> findItemsByWarehouseId(int warehouseId) {
+        return itemRepository.findAllByWarehouseId(warehouseId);
+    }
+
     public Item saveItem(Item item) {
 
         // if the given product and warehouse exist

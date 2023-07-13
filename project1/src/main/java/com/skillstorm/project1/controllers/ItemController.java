@@ -8,6 +8,7 @@ import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import com.skillstorm.project1.services.ItemService;
 
 @RestController
 @RequestMapping("/items")
+@CrossOrigin
 public class ItemController {
 
     @Autowired
@@ -30,6 +32,13 @@ public class ItemController {
     @GetMapping
     public ResponseEntity<List<Item>> findAllItems() {
         List<Item> items = itemService.findAllItems();
+
+        return new ResponseEntity<List<Item>>(items, HttpStatus.OK);
+    }
+
+    @GetMapping("/warehouse")
+    public ResponseEntity<List<Item>> findItemsByWarehouseId(@RequestParam int warehouseId) {
+        List<Item> items = itemService.findItemsByWarehouseId(warehouseId);
 
         return new ResponseEntity<List<Item>>(items, HttpStatus.OK);
     }

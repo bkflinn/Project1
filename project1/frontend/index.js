@@ -1,5 +1,6 @@
 let allProducts = [];
 let allWarehouses = [];
+let allItems = [];
 
 let productIdToBeUsed = 0;
 let warehouseIdToBeUsed = 0;
@@ -14,8 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     let URL = "http://localhost:8080/" + requests[i];
-
-    console.log(URL);
 
     xhr.onreadystatechange = () => {
       if (xhr.readyState == 4) {
@@ -41,6 +40,31 @@ document.addEventListener("DOMContentLoaded", () => {
     xhr.send();
   })(0, requests.length);
 });
+
+function getItems(warehouseId) {
+  let xhr = new XMLHttpRequest();
+
+  let URL = "http://localhost:8080/items/warehouse?warehouseId=" + warehouseId;
+
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState == 4) {
+      let items = JSON.parse(xhr.responseText);
+
+      while (document.getElementById("item-table-body").firstElementChild) {
+        document.getElementById("item-table-body").firstElementChild.remove();
+      }
+
+      console.log("here");
+      items.forEach((newItem) => {
+        addItemToTable(newItem);
+      });
+    }
+  };
+
+  xhr.open("GET", URL);
+
+  xhr.send();
+}
 
 // add products to table
 function addProductToTable(newProduct) {
@@ -79,6 +103,7 @@ function addWarehouseToTable(newWarehouse) {
   let location = document.createElement("td");
   let numberOfItems = document.createElement("td");
   let maxCapacity = document.createElement("td");
+  let viewBtn = document.createElement("td");
   let editBtn = document.createElement("td");
   let deleteBtn = document.createElement("td");
 
@@ -86,6 +111,8 @@ function addWarehouseToTable(newWarehouse) {
   location.innerText = newWarehouse.warehouse_location;
   numberOfItems.innerText = newWarehouse.number_of_items;
   maxCapacity.innerText = newWarehouse.max_capacity;
+
+  viewBtn.innerHTML = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#itemsModal" onclick="getItems(${newWarehouse.id})">View</button>`;
 
   editBtn.innerHTML = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#warehouseUpdateModal" onclick="setWarehouseIdToBeUsed(${newWarehouse.id})">Edit</button>`;
 
@@ -95,6 +122,7 @@ function addWarehouseToTable(newWarehouse) {
   tr.appendChild(location);
   tr.appendChild(numberOfItems);
   tr.appendChild(maxCapacity);
+  tr.appendChild(viewBtn);
   tr.appendChild(editBtn);
   tr.appendChild(deleteBtn);
 
@@ -103,6 +131,39 @@ function addWarehouseToTable(newWarehouse) {
   document.getElementById("warehouse-table-body").appendChild(tr);
 
   allWarehouses.push(newWarehouse);
+}
+
+// add items to table
+function addItemToTable(newItem) {
+  let tr = document.createElement("tr");
+  let id = document.createElement("td");
+  let productId = document.createElement("td");
+  let warehouseId = document.createElement("td");
+  let quantity = document.createElement("td");
+  let editBtn = document.createElement("td");
+  let deleteBtn = document.createElement("td");
+
+  id.innerText = newItem.id;
+  productId.innerText = newItem.productId;
+  warehouseId.innerText = newItem.warehouseId;
+  quantity.innerText = newItem.item_quantity;
+
+  editBtn.innerHTML = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#itemUpdateModal" onclick="setItemIdToBeUsed(${newItem.id})">Edit</button>`;
+
+  deleteBtn.innerHTML = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#itemDeleteModal" onclick="setItemIdToBeUsed(${newItem.id})">Delete</button>`;
+
+  tr.appendChild(id);
+  tr.appendChild(productId);
+  tr.appendChild(warehouseId);
+  tr.appendChild(quantity);
+  tr.appendChild(editBtn);
+  tr.appendChild(deleteBtn);
+
+  tr.setAttribute("id", "TR" + "item" + newItem.id);
+
+  document.getElementById("item-table-body").appendChild(tr);
+
+  allItems.push(newItem);
 }
 
 // set the id of the product that is to be used
