@@ -117,6 +117,7 @@ function setProductIdToBeUsed(productId) {
   }
 }
 
+// add product
 document.getElementById("add-product").addEventListener("click", (event) => {
   event.preventDefault();
 
@@ -205,6 +206,38 @@ document.getElementById("delete-product").addEventListener("click", (event) => {
       if (data.status === 204) {
         removeProductFromTable(product);
       }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
+// add product
+document.getElementById("add-warehouse").addEventListener("click", (event) => {
+  event.preventDefault();
+
+  let inputData = new FormData(document.getElementById("add-warehouse-form"));
+
+  let newWarehouse = {
+    warehouse_location: inputData.get("add-warehouse-location"),
+    number_of_items: inputData.get("add-warehouse-number-of-items"),
+    max_capacity: inputData.get("add-warehouse-max-capacity"),
+  };
+
+  let URL = "http://localhost:8080/warehouses";
+
+  fetch(URL + "/warehouse", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newWarehouse),
+  })
+    .then((data) => {
+      return data.json();
+    })
+    .then((productJson) => {
+      addWarehouseToTable(productJson);
     })
     .catch((error) => {
       console.error(error);

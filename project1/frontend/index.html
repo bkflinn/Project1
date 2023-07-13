@@ -220,6 +220,80 @@
         </div>
       </div>
 
+      <!-- Add Warehouse Modal -->
+      <div
+        class="modal fade"
+        id="addWarehouseModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Warehouse</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="add-warehouse-form" action="#">
+                <div>
+                  <label>Warehouse Location</label>
+                  <input
+                    id="add-warehouse-location"
+                    name="add-warehouse-location"
+                    type="text"
+                    class="form-control"
+                  />
+                </div>
+                <div>
+                  <label>Number of Items</label>
+                  <input
+                    id="add-warehouse-number-of-items"
+                    name="add-warehouse-number-of-items"
+                    type="text"
+                    class="form-control"
+                  />
+                </div>
+                <div>
+                  <label>Max Capacity</label>
+                  <input
+                    id="add-warehouse-max-capacity"
+                    name="add-warehouse-max-capacity"
+                    type="text"
+                    class="form-control"
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                id="add-warehouse"
+                type="button"
+                class="btn btn-primary"
+                data-dismiss="modal"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- TABS -->
       <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -297,6 +371,18 @@
           aria-labelledby="pills-profile-tab"
           style="display: none"
         >
+          <!-- add product button -->
+          <div>
+            <button
+              id="add-warehouse-button"
+              name="add-warehouse-button"
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#addWarehouseModal"
+            >
+              Add Warehouse
+            </button>
+          </div>
           <!-- Warehouse Table -->
           <div class="col-lg-12">
             <table class="table table-primary table-hover">
