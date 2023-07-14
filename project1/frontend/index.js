@@ -45,6 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function getItems(warehouseId) {
   let xhr = new XMLHttpRequest();
 
+  setWarehouseIdToBeUsed(warehouseId);
+
   let URL = "http://localhost:8080/items/warehouse?warehouseId=" + warehouseId;
 
   xhr.onreadystatechange = () => {
@@ -55,7 +57,6 @@ function getItems(warehouseId) {
         document.getElementById("item-table-body").firstElementChild.remove();
       }
 
-      console.log("here");
       items.forEach((newItem) => {
         addItemToTable(newItem);
       });
@@ -308,6 +309,10 @@ document.getElementById("delete-product").addEventListener("click", (event) => {
     .then((data) => {
       if (data.status === 204) {
         removeProductFromTable(product);
+        allWarehouses.forEach((warehouse) => {
+          setWarehouseIdToBeUsed(warehouse.id);
+          document.getElementById("update-warehouse").click();
+        });
       }
     })
     .catch((error) => {
@@ -352,6 +357,7 @@ document
   .getElementById("update-warehouse")
   .addEventListener("click", (event) => {
     event.preventDefault();
+    console.log("here");
 
     let inputData = new FormData(
       document.getElementById("update-warehouse-form")
@@ -418,6 +424,70 @@ document
       });
   });
 
+// add item
+document.getElementById("add-item").addEventListener("click", (event) => {
+  event.preventDefault();
+
+  let inputData = new FormData(document.getElementById("add-item-form"));
+
+  let productExists = false;
+
+  let warehouse = 0;
+
+  // check if given product exists
+  for (let p of allProducts) {
+    if (p.id == inputData.get("add-item-product")) {
+      productExists = true;
+      break;
+    }
+  }
+
+  if (!productExists) {
+    // throw toast
+  }
+
+  for (let w of allWarehouses) {
+    if (w.id == warehouseIdToBeUsed) {
+      warehouse = w;
+    }
+  }
+
+  // checks if the given number of items exceeds the capacity
+  if (
+    Number(inputData.get("add-item-quantity")) + warehouse.number_of_items >
+    warehouse.max_capacity
+  ) {
+    // throw toast
+  }
+
+  let newItem = {
+    productId: inputData.get("add-item-product"),
+    warehouseId: warehouseIdToBeUsed,
+    item_quantity: inputData.get("add-item-quantity"),
+  };
+
+  let URL = "http://localhost:8080/items";
+
+  fetch(URL + "/item", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newItem),
+  })
+    .then((data) => {
+      return data.json();
+    })
+    .then((itemJson) => {
+      addItemToTable(itemJson);
+      setWarehouseIdToBeUsed(newItem.warehouseId);
+      document.getElementById("update-warehouse").click();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
 // delete item
 document.getElementById("delete-item").addEventListener("click", (event) => {
   event.preventDefault();
@@ -443,6 +513,8 @@ document.getElementById("delete-item").addEventListener("click", (event) => {
     .then((data) => {
       if (data.status === 204) {
         removeItemFromTable(item);
+        setWarehouseIdToBeUsed(item.warehouseId);
+        document.getElementById("update-warehouse").click();
       }
     })
     .catch((error) => {
@@ -461,11 +533,13 @@ function updateProductInTable(product) {
 }
 
 function updateWarehouseInTable(warehouse) {
+  console.log(warehouse);
   document.getElementById("TR" + "warehouse" + warehouse.id).innerHTML = `
     <td>${warehouse.id}</td>
     <td>${warehouse.warehouse_location}</td>
     <td>${warehouse.number_of_items}</td>
     <td>${warehouse.max_capacity}</td>
+    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#itemsModal" onclick="getItems(${warehouse.id})">View</button></td>
     <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#warehouseUpdateModal" onclick="setWarehouseIdToBeUsed(${warehouse.id})">Edit</button></td>
     <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#warehouseDeleteModal" onclick="setWarehouseIdToBeUsed(${warehouse.id})">Delete</button></td>
     `;
