@@ -39,8 +39,18 @@ public class ItemService {
             // get the requested warehouse
             Warehouse warehouse = warehouseRepository.getReferenceById(item.getWarehouseId());
 
+            int sum = 0;
+
+            List<Item> items = findItemsByWarehouseId(item.getWarehouseId());
+
+            for(Item i : items) {
+                if(i.getId() != item.getId()){
+                    sum += i.getItem_quantity();
+                }
+            }
+
             // if the given quantity does not exceed the warehouse's limit
-            if(warehouse.getNumber_of_items() + item.getItem_quantity() <= warehouse.getMax_capacity()) {
+            if(sum + item.getItem_quantity() <= warehouse.getMax_capacity()) {
 
                 // update warhouse number of items here when time to work on warehouse CRUD
 

@@ -254,15 +254,6 @@
                   />
                 </div>
                 <div>
-                  <label>Number of Items</label>
-                  <input
-                    id="add-warehouse-number-of-items"
-                    name="add-warehouse-number-of-items"
-                    type="text"
-                    class="form-control"
-                  />
-                </div>
-                <div>
                   <label>Max Capacity</label>
                   <input
                     id="add-warehouse-max-capacity"
@@ -344,6 +335,7 @@
                     name="update-warehouse-number-of-items"
                     type="text"
                     class="form-control"
+                    disabled
                   />
                 </div>
                 <div>
@@ -462,7 +454,7 @@
               <table class="table table-primary table-hover">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <!-- <th>ID</th> -->
                     <th>Product</th>
                     <!--<th>Warehouse ID</th>-->
                     <th>Quantity</th>
@@ -545,6 +537,81 @@
                 data-dismiss="modal"
               >
                 Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item Update Modal -->
+      <div
+        class="modal fade"
+        id="itemUpdateModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="update-item-form" action="#">
+                <div>
+                  <label>Item ID</label>
+                  <input
+                    id="update-item-id"
+                    name="update-item-id"
+                    type="text"
+                    class="form-control"
+                    disabled
+                  />
+                </div>
+                <div>
+                  <label>Product ID</label>
+                  <input
+                    id="update-item-product"
+                    name="update-item-product"
+                    type="text"
+                    class="form-control"
+                  />
+                </div>
+                <div>
+                  <label>Quantity</label>
+                  <input
+                    id="update-item-quantity"
+                    name="update-item-quantity"
+                    type="text"
+                    class="form-control"
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                id="update-item"
+                type="button"
+                class="btn btn-primary"
+                data-dismiss="modal"
+              >
+                Update
               </button>
             </div>
           </div>

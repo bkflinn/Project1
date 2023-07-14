@@ -138,7 +138,7 @@ function addWarehouseToTable(newWarehouse) {
 // add items to table
 function addItemToTable(newItem) {
   let tr = document.createElement("tr");
-  let id = document.createElement("td");
+  // let id = document.createElement("td");
   let productId = document.createElement("td");
   //let warehouseId = document.createElement("td");
   let quantity = document.createElement("td");
@@ -151,7 +151,7 @@ function addItemToTable(newItem) {
     }
   }
 
-  id.innerText = newItem.id;
+  // id.innerText = newItem.id;
   //productId.innerText = newItem.productId;
   //warehouseId.innerText = newItem.warehouseId;
   quantity.innerText = newItem.item_quantity;
@@ -160,7 +160,7 @@ function addItemToTable(newItem) {
 
   deleteBtn.innerHTML = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#itemDeleteModal" onclick="setItemIdToBeUsed(${newItem.id})">Delete</button>`;
 
-  tr.appendChild(id);
+  // tr.appendChild(id);
   tr.appendChild(productId);
   //tr.appendChild(warehouseId);
   tr.appendChild(quantity);
@@ -208,17 +208,13 @@ function setWarehouseIdToBeUsed(warehouseId) {
 function setItemIdToBeUsed(itemId) {
   itemIdToBeUsed = itemId;
 
-  // for (let i of allItems) {
-  //   if (w.id == warehouseIdToBeUsed) {
-  //     document.getElementById("update-item-id").value = w.id;
-  //     document.getElementById("update-item-location").value =
-  //       w.warehouse_location;
-  //     document.getElementById("update-warehouse-number-of-items").value =
-  //       w.number_of_items;
-  //     document.getElementById("update-warehouse-max-capacity").value =
-  //       w.max_capacity;
-  //   }
-  // }
+  for (let i of allItems) {
+    if (i.id == itemIdToBeUsed) {
+      document.getElementById("update-item-id").value = i.id;
+      document.getElementById("update-item-product").value = i.productId;
+      document.getElementById("update-item-quantity").value = i.item_quantity;
+    }
+  }
 }
 
 // add product
@@ -357,7 +353,6 @@ document
   .getElementById("update-warehouse")
   .addEventListener("click", (event) => {
     event.preventDefault();
-    console.log("here");
 
     let inputData = new FormData(
       document.getElementById("update-warehouse-form")
@@ -488,6 +483,41 @@ document.getElementById("add-item").addEventListener("click", (event) => {
     });
 });
 
+// update item
+document.getElementById("update-item").addEventListener("click", (event) => {
+  event.preventDefault();
+
+  let inputData = new FormData(document.getElementById("update-item-form"));
+
+  let item = {
+    id: document.getElementById("update-item-id").value,
+    productId: inputData.get("update-item-product"),
+    warehouseId: warehouseIdToBeUsed,
+    item_quantity: inputData.get("update-item-quantity"),
+  };
+
+  let URL = "http://localhost:8080/items";
+
+  fetch(URL + "/item", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(item),
+  })
+    .then((data) => {
+      return data.json();
+    })
+    .then((itemJson) => {
+      updateItemInTable(itemJson);
+      setWarehouseIdToBeUsed(item.warehouseId);
+      document.getElementById("update-warehouse").click();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
 // delete item
 document.getElementById("delete-item").addEventListener("click", (event) => {
   event.preventDefault();
@@ -533,7 +563,6 @@ function updateProductInTable(product) {
 }
 
 function updateWarehouseInTable(warehouse) {
-  console.log(warehouse);
   document.getElementById("TR" + "warehouse" + warehouse.id).innerHTML = `
     <td>${warehouse.id}</td>
     <td>${warehouse.warehouse_location}</td>
@@ -542,6 +571,22 @@ function updateWarehouseInTable(warehouse) {
     <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#itemsModal" onclick="getItems(${warehouse.id})">View</button></td>
     <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#warehouseUpdateModal" onclick="setWarehouseIdToBeUsed(${warehouse.id})">Edit</button></td>
     <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#warehouseDeleteModal" onclick="setWarehouseIdToBeUsed(${warehouse.id})">Delete</button></td>
+    `;
+}
+
+function updateItemInTable(item) {
+  let productName = "";
+
+  for (let p of allProducts) {
+    if (p.id == item.productId) {
+      productName = p.product_name;
+    }
+  }
+  document.getElementById("TR" + "item" + item.id).innerHTML = `
+    <td>${productName}</td>
+    <td>${item.item_quantity}</td>
+    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#itemUpdateModal" onclick="setItemIdToBeUsed(${item.id})">Edit</button></td>
+    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#itemDeleteModal" onclick="setItemIdToBeUsed(${item.id})">Delete</button></td>
     `;
 }
 
