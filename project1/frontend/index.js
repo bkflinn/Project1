@@ -8,6 +8,8 @@ let itemIdToBeUsed = 0;
 
 let requests = ["products", "warehouses"];
 
+// load products and warehouses content
+
 document.addEventListener("DOMContentLoaded", () => {
   let xhr = new XMLHttpRequest();
 
@@ -42,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
   })(0, requests.length);
 });
 
+// get items
 function getItems(warehouseId) {
   let xhr = new XMLHttpRequest();
 
@@ -151,18 +154,13 @@ function addItemToTable(newItem) {
     }
   }
 
-  // id.innerText = newItem.id;
-  //productId.innerText = newItem.productId;
-  //warehouseId.innerText = newItem.warehouseId;
   quantity.innerText = newItem.item_quantity;
 
   editBtn.innerHTML = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#itemUpdateModal" onclick="setItemIdToBeUsed(${newItem.id})">Edit</button>`;
 
   deleteBtn.innerHTML = `<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#itemDeleteModal" onclick="setItemIdToBeUsed(${newItem.id})">Delete</button>`;
 
-  // tr.appendChild(id);
   tr.appendChild(productId);
-  //tr.appendChild(warehouseId);
   tr.appendChild(quantity);
   tr.appendChild(editBtn);
   tr.appendChild(deleteBtn);
@@ -526,6 +524,7 @@ document.getElementById("delete-item").addEventListener("click", (event) => {
     });
 });
 
+// updates product in table
 function updateProductInTable(product) {
   document.getElementById("TR" + "product" + product.id).innerHTML = `
     <td>${product.id}</td>
@@ -536,6 +535,7 @@ function updateProductInTable(product) {
     `;
 }
 
+// updates warehouse in table
 function updateWarehouseInTable(warehouse) {
   document.getElementById("TR" + "warehouse" + warehouse.id).innerHTML = `
     <td>${warehouse.id}</td>
@@ -548,6 +548,7 @@ function updateWarehouseInTable(warehouse) {
     `;
 }
 
+// updates item in table
 function updateItemInTable(item) {
   let productName = "";
 
