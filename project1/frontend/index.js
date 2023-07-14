@@ -192,7 +192,7 @@ function setWarehouseIdToBeUsed(warehouseId) {
   warehouseIdToBeUsed = warehouseId;
 
   for (let w of allWarehouses) {
-    if (w.id == warehouseIdToBeUsed) {
+    if (w.id == warehouseId) {
       document.getElementById("update-warehouse-id").value = w.id;
       document.getElementById("update-warehouse-location").value =
         w.warehouse_location;
@@ -242,6 +242,7 @@ document.getElementById("add-product").addEventListener("click", (event) => {
     })
     .then((productJson) => {
       addProductToTable(productJson);
+      document.getElementById("add-product-form").reset();
     })
     .catch((error) => {
       console.error(error);
@@ -342,6 +343,7 @@ document.getElementById("add-warehouse").addEventListener("click", (event) => {
     })
     .then((warehouseJson) => {
       addWarehouseToTable(warehouseJson);
+      document.getElementById("add-warehouse-form").reset();
     })
     .catch((error) => {
       console.error(error);
@@ -425,36 +427,6 @@ document.getElementById("add-item").addEventListener("click", (event) => {
 
   let inputData = new FormData(document.getElementById("add-item-form"));
 
-  let productExists = false;
-
-  let warehouse = 0;
-
-  // check if given product exists
-  for (let p of allProducts) {
-    if (p.id == inputData.get("add-item-product")) {
-      productExists = true;
-      break;
-    }
-  }
-
-  if (!productExists) {
-    // throw toast
-  }
-
-  for (let w of allWarehouses) {
-    if (w.id == warehouseIdToBeUsed) {
-      warehouse = w;
-    }
-  }
-
-  // checks if the given number of items exceeds the capacity
-  if (
-    Number(inputData.get("add-item-quantity")) + warehouse.number_of_items >
-    warehouse.max_capacity
-  ) {
-    // throw toast
-  }
-
   let newItem = {
     productId: inputData.get("add-item-product"),
     warehouseId: warehouseIdToBeUsed,
@@ -477,8 +449,10 @@ document.getElementById("add-item").addEventListener("click", (event) => {
       addItemToTable(itemJson);
       setWarehouseIdToBeUsed(newItem.warehouseId);
       document.getElementById("update-warehouse").click();
+      document.getElementById("add-item-form").reset();
     })
     .catch((error) => {
+      document.getElementById("add-item-form").reset();
       console.error(error);
     });
 });
